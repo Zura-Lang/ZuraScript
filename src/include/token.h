@@ -2,7 +2,6 @@
 #define TOKEN_H
 
 typedef struct TOKEN_STRUCT {
-
     enum {
 
         TOKEN_ID,

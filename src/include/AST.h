@@ -43,6 +43,7 @@ typedef struct AST_STRUCT {
 
 } AST_T;
 
+AST_T *printAST(AST_T *node, int depth);
 AST_T* init_ast(int type);
 
 #endif

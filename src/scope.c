@@ -1,4 +1,5 @@
 #include "include/scope.h"
+#include <stdio.h>
 
 scope_T* init_scope() {
 
@@ -11,7 +12,7 @@ scope_T* init_scope() {
 }
 
 AST_T* scope_add_function_definition(scope_T* scope, AST_T* fdef) {
-
+    printf("Adding function definition `%s` to scope\n", fdef->function_definition_name);
     scope->function_definitions_size += 1;
 
     if(scope->function_definitions == (void*)0) {

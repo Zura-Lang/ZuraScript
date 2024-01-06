@@ -9,8 +9,8 @@ typedef struct SCOPE_STRUCT {
 
 } scope_T;
 
-scope_T* init_scope();
-
 AST_T* scope_add_function_definition(scope_T* scope, AST_T* fdef);
+
+scope_T* init_scope();
 
 #endif

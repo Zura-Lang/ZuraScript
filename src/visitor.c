@@ -23,19 +23,16 @@ static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_
 }
 
 visitor_T* init_visitor() {
-
+    printf("Initializing visitor\n");
     visitor_T* visitor = calloc(1, sizeof(struct VISITOR_STRUCT));
     visitor->variable_definitions = (void*)0;
     visitor->variable_definitions_size = 0;
-
     return visitor;
-
 }
 
 AST_T* visitor_visit(visitor_T* visitor, AST_T* node) {
-
+    printf("Visiting node of type '%d'\n", node->type);
     switch(node->type) {
-
         case AST_VARIABLE_DEFINITION: return visitor_visit_variable_definition(visitor, node); break;
         case AST_FUNCTION_DEFINITION: return visitor_visit_function_definition(visitor, node); break;
         case AST_VARIABLE: return visitor_visit_variable(visitor, node); break;
@@ -43,42 +40,31 @@ AST_T* visitor_visit(visitor_T* visitor, AST_T* node) {
         case AST_STRING: return visitor_visit_string(visitor, node); break;
         case AST_COMPOUND: return visitor_visit_compound(visitor, node); break;
         case AST_NOOP: return node; break;
-        
     }
 
     printf("Uncaught statement of type '%d\n'", node->type);
     exit(1);
 
     return init_ast(AST_NOOP);
-
 }
 
 AST_T* visitor_visit_variable_definition(visitor_T* visitor, AST_T* node) {
-
     if(visitor->variable_definitions == (void*)0) {
-
         visitor->variable_definitions = calloc(1, sizeof(struct AST_STRUCT*));
         visitor->variable_definitions[0] = node;
         visitor->variable_definitions_size += 1;
-
     }
     else {
-
         visitor->variable_definitions_size += 1;
         visitor->variable_definitions = realloc(visitor->variable_definitions, visitor->variable_definitions_size * sizeof(struct AST_STRUCT*));
         visitor->variable_definitions[visitor->variable_definitions_size-1] = node;
     }
-
     return node;
-
 }
 
 AST_T* visitor_visit_function_definition(visitor_T* visitor, AST_T* node) {
-
     scope_add_function_definition(node->scope, node);
-
     return node;
-
 }
 
 AST_T* visitor_visit_variable(visitor_T* visitor, AST_T* node) {
@@ -101,6 +87,7 @@ AST_T* visitor_visit_variable(visitor_T* visitor, AST_T* node) {
 }
 
 AST_T* visitor_visit_function_call(visitor_T* visitor, AST_T* node) {
+    printf("Visiting function call `%s`\n", node->function_call_name);
 
     if (strcmp(node->function_call_name, "print") == 0) {
 
